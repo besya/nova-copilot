@@ -1,0 +1,39 @@
+{
+    "identifier": "besya.copilot",
+    "name": "Copilot",
+    "author": "Ihar Biaspalau",
+    "organization": "Besya",
+    "description": "Github Copilot for Nova",
+    "version": "0.0.1",
+    "categories": ["languages"],
+    "repository": "https://github.com/besya/nova-copilot",
+    "license": "MIT",
+    "bugs": "https://github.com/besya/nova-copilot/issues",
+
+    "main": "main.js",
+    "config": "config.json",
+
+    "entitlements": {
+        "process": true,
+        "filesystem": "readonly"
+    },
+
+    "commands": {
+        "editor": [],
+        "extensions": [
+            {
+                "title": "Sign In",
+                "command": "besya.copilot.signIn"
+            },
+            {
+                "title": "Sign Out",
+                "command": "besya.copilot.signOut"
+            },
+            {
+                "title": "Inline Completion",
+                "command": "besya.copilot.inlineCompletion",
+                "shortcut": "ctrl-shift-\""
+            }
+        ]
+    }
+}

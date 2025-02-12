@@ -1,0 +1,23 @@
+{
+    "name": "copilot",
+    "version": "1.0.0",
+    "main": "src/main.ts",
+    "scripts": {
+        "clean": "rimraf ./copilot.novaextension/Scripts",
+        "build": "npm run clean && tsc",
+        "dev": "ts-node src/main.ts",
+        "watch": "tsc --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "@types/node": "^22.13.1",
+        "rimraf": "^6.0.1",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.3",
+        "@types/nova-editor-node": "^5.1.4",
+        "vscode-languageserver-types": "3.17.6-next.6"
+    }
+}
