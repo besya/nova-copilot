@@ -1,6 +1,6 @@
 interface Command {
     command: string
-    arguments: [string]
+    arguments: string[]
     title: string
 }
 

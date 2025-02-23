@@ -4,7 +4,7 @@
     "author": "Ihar Biaspalau",
     "organization": "Besya",
     "description": "Github Copilot for Nova",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "categories": ["languages"],
     "repository": "https://github.com/besya/nova-copilot",
     "license": "MIT",

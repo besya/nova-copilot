@@ -18,10 +18,11 @@ const CopilotLanguageServer_1 = __importDefault(require("./CopilotLanguageServer
 const GhostCompleter_1 = __importDefault(require("./GhostCompleter"));
 const Notification_1 = __importDefault(require("./Notification"));
 const InlineCompleter_1 = __importDefault(require("./InlineCompleter"));
+const syntaxes_1 = __importDefault(require("./syntaxes"));
 let languageServer = null;
 let inlineCompleter = null;
 function activate() {
-    languageServer = new CopilotLanguageServer_1.default();
+    languageServer = new CopilotLanguageServer_1.default(syntaxes_1.default);
     inlineCompleter = new InlineCompleter_1.default(languageServer);
     nova.commands.register("besya.copilot.signIn", signIn);
     nova.commands.register("besya.copilot.signOut", signOut);

@@ -2,12 +2,13 @@ import CopilotLanguageServer from "./CopilotLanguageServer"
 import GhostCompleter from "./GhostCompleter"
 import Notification from "./Notification"
 import InlineCompleter from "./InlineCompleter"
+import commonSyntaxes from "./syntaxes"
 
 let languageServer: CopilotLanguageServer | null = null
 let inlineCompleter: InlineCompleter | null = null
 
 export function activate() {
-    languageServer = new CopilotLanguageServer()
+    languageServer = new CopilotLanguageServer(commonSyntaxes)
     inlineCompleter = new InlineCompleter(languageServer)
 
     nova.commands.register("besya.copilot.signIn", signIn)

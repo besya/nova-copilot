@@ -7,8 +7,13 @@ class CopilotLanguageServer {
     lastStatus = ""
     lspPath = ""
     nodePath = ""
+    commonSyntaxes: string[]
+    extraSyntaxes: string[]
 
-    constructor() {
+    constructor(commonSyntaxes: string[]) {
+        this.commonSyntaxes = commonSyntaxes
+        this.extraSyntaxes = []
+
         // Observe the configuration setting for the node's location, and restart the server on change
         nova.config.observe("besya.copilot.node-path", (path: string) => {
             if (path == "") {
@@ -55,24 +60,7 @@ class CopilotLanguageServer {
 
         var clientOptions = {
             // debug: nova.inDevMode(),
-            syntaxes: [
-                "javascript",
-                "typescript",
-                "python",
-                "ruby",
-                "rust",
-                "go",
-                "java",
-                "c",
-                "cpp",
-                "csharp",
-                "php",
-                "html",
-                "css",
-                "json",
-                "yaml",
-                "markdown",
-            ],
+            syntaxes: [...this.commonSyntaxes, ...this.extraSyntaxes],
             initializationOptions: {
                 editorInfo: {
                     name: "Nova",
