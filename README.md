@@ -108,6 +108,20 @@ This mode can be enabled in **Extensions > Extension Library > Copilot > Setting
 
 **WARNING**: This is an experimental feature, so be careful not to lose or break your code by using it.
 
+## Issues
+
+If you encounter issues related to an extension work after updating an extension, copilot-language-server, node, Nova or expired session of Github/Copilot servers you could try to solve them by following these steps:
+1. Sign out (Extensions -> Copilot -> Sign Out)
+1. Disable Copilot extension (Extensions -> Extension Library... and uncheck the Copilot from Installed Extensions left sidebar)
+1. Double-check "Node path" and "Copilot Language Server Path" on the Copilot extension settings page (Extensions -> Extension Library... -> Copilot -> Settings)
+1. Quit and reopen Nova
+1. Open your project
+1. Enable Copilot extension and close extensions window
+1. Sign in (Extensions -> Copilot -> Sign In)
+1. At this point the Notification with a Github code should appear
+
+If you still have an issue, don't hesitate to [https://github.com/besya/nova-copilot/issues/new](report) it
+
 ## Development
 
 1. Clone repo
