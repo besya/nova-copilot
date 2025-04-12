@@ -1,62 +1,74 @@
-import CopilotLanguageServer from "./CopilotLanguageServer"
-import GhostCompleter from "./GhostCompleter"
-import Notification from "./Notification"
-import InlineCompleter from "./InlineCompleter"
-import commonSyntaxes from "./syntaxes"
+import CopilotLanguageServer from './CopilotLanguageServer'
+import GhostCompleter from './GhostCompleter'
+import InlineCompleter from './InlineCompleter'
+import Notification from './Notification'
+import commonSyntaxes from './syntaxes'
 
 let languageServer: CopilotLanguageServer | null = null
 let inlineCompleter: InlineCompleter | null = null
 
 export function activate() {
-    languageServer = new CopilotLanguageServer(commonSyntaxes)
-    inlineCompleter = new InlineCompleter(languageServer)
+  nova.commands.register('besya.copilot.signIn', signIn)
+  nova.commands.register('besya.copilot.signOut', signOut)
+  nova.commands.register('besya.copilot.inlineCompletion', inlineCompletion)
+  nova.commands.register('besya.copilot.restart', createOrRestartLSP)
+  nova.commands.register('besya.copilot.stop', stopLSP)
 
-    nova.commands.register("besya.copilot.signIn", signIn)
-    nova.commands.register("besya.copilot.signOut", signOut)
-    nova.commands.register("besya.copilot.inlineCompletion", inlineCompletion)
+  stopLSP()
+  createOrRestartLSP()
 }
 
 export function deactivate() {
-    if (inlineCompleter) {
-        inlineCompleter.stop()
-        inlineCompleter = null
-    }
-
-    if (languageServer) {
-        languageServer.stop()
-        languageServer = null
-    }
+  stopLSP()
 }
 
 function showNotRunningNotification() {
-    new Notification("Copilot Language Server is not running").show()
+  new Notification('Copilot Language Server is not running').show()
 }
 
 function signIn() {
-    if (languageServer) {
-        languageServer.signIn()
-    } else {
-        showNotRunningNotification()
-    }
+  if (languageServer) {
+    languageServer.signIn()
+  } else {
+    showNotRunningNotification()
+  }
 }
 
 function signOut() {
-    if (languageServer) {
-        languageServer.signOut()
-    } else {
-        showNotRunningNotification()
-    }
+  if (languageServer) {
+    languageServer.signOut()
+  } else {
+    showNotRunningNotification()
+  }
 }
 
 async function inlineCompletion() {
-    const editor = nova.workspace.activeTextEditor
-    if (!editor || !languageServer) {
-        showNotRunningNotification()
-        return
-    }
+  const editor = nova.workspace.activeTextEditor
+  if (!editor || !languageServer) {
+    showNotRunningNotification()
+    return
+  }
 
-    const completion = await languageServer.getInlineCompletion(editor)
-    if (!completion) return
+  const completion = await languageServer.getInlineCompletion(editor)
+  if (!completion) return
 
-    await new GhostCompleter(editor).apply(completion)
+  await new GhostCompleter(editor).apply(completion)
+}
+
+function createOrRestartLSP() {
+  stopLSP()
+  languageServer = new CopilotLanguageServer(commonSyntaxes)
+  inlineCompleter = new InlineCompleter(languageServer)
+}
+
+function stopLSP() {
+  if (inlineCompleter) {
+    inlineCompleter.stop()
+    inlineCompleter = null
+  }
+
+  if (languageServer) {
+    languageServer.stop()
+    languageServer = null
+  }
 }

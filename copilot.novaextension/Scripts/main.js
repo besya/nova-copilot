@@ -16,30 +16,25 @@ exports.activate = activate;
 exports.deactivate = deactivate;
 const CopilotLanguageServer_1 = __importDefault(require("./CopilotLanguageServer"));
 const GhostCompleter_1 = __importDefault(require("./GhostCompleter"));
-const Notification_1 = __importDefault(require("./Notification"));
 const InlineCompleter_1 = __importDefault(require("./InlineCompleter"));
+const Notification_1 = __importDefault(require("./Notification"));
 const syntaxes_1 = __importDefault(require("./syntaxes"));
 let languageServer = null;
 let inlineCompleter = null;
 function activate() {
-    languageServer = new CopilotLanguageServer_1.default(syntaxes_1.default);
-    inlineCompleter = new InlineCompleter_1.default(languageServer);
-    nova.commands.register("besya.copilot.signIn", signIn);
-    nova.commands.register("besya.copilot.signOut", signOut);
-    nova.commands.register("besya.copilot.inlineCompletion", inlineCompletion);
+    nova.commands.register('besya.copilot.signIn', signIn);
+    nova.commands.register('besya.copilot.signOut', signOut);
+    nova.commands.register('besya.copilot.inlineCompletion', inlineCompletion);
+    nova.commands.register('besya.copilot.restart', createOrRestartLSP);
+    nova.commands.register('besya.copilot.stop', stopLSP);
+    stopLSP();
+    createOrRestartLSP();
 }
 function deactivate() {
-    if (inlineCompleter) {
-        inlineCompleter.stop();
-        inlineCompleter = null;
-    }
-    if (languageServer) {
-        languageServer.stop();
-        languageServer = null;
-    }
+    stopLSP();
 }
 function showNotRunningNotification() {
-    new Notification_1.default("Copilot Language Server is not running").show();
+    new Notification_1.default('Copilot Language Server is not running').show();
 }
 function signIn() {
     if (languageServer) {
@@ -69,4 +64,19 @@ function inlineCompletion() {
             return;
         yield new GhostCompleter_1.default(editor).apply(completion);
     });
+}
+function createOrRestartLSP() {
+    stopLSP();
+    languageServer = new CopilotLanguageServer_1.default(syntaxes_1.default);
+    inlineCompleter = new InlineCompleter_1.default(languageServer);
+}
+function stopLSP() {
+    if (inlineCompleter) {
+        inlineCompleter.stop();
+        inlineCompleter = null;
+    }
+    if (languageServer) {
+        languageServer.stop();
+        languageServer = null;
+    }
 }

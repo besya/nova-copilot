@@ -12,42 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const helpers_1 = require("./helpers");
 const Notification_1 = __importDefault(require("./Notification"));
+const helpers_1 = require("./helpers");
 class CopilotLanguageServer {
     constructor(commonSyntaxes) {
         this.languageClient = null;
-        this.lastStatus = "";
-        this.lspPath = "";
-        this.nodePath = "";
+        this.lastStatus = '';
+        this.lspPath = '';
         this.commonSyntaxes = commonSyntaxes;
         this.extraSyntaxes = [];
-        // Observe the configuration setting for the node's location, and restart the server on change
-        nova.config.observe("besya.copilot.node-path", (path) => {
-            if (path == "") {
-                new Notification_1.default("node has not been found").show();
-                return;
-            }
-            this.nodePath = path;
-            this.start();
-        });
         // Observe the configuration setting for the server's location, and restart the server on change
-        nova.config.observe("besya.copilot.language-server-path", (path) => {
-            if (path == "") {
-                new Notification_1.default("copilot-language-server has not been found").show();
+        nova.config.observe('besya.copilot.language-server-path', (path) => {
+            if (path === '') {
+                new Notification_1.default('copilot-language-server has not been found').show();
                 return;
             }
             this.lspPath = path;
             this.start();
         });
         // Observe configuration changes
-        nova.config.onDidChange("besya.copilot", this.onDidChangeConfiguration, this);
+        nova.config.onDidChange('besya.copilot', this.onDidChangeConfiguration, this);
     }
     start() {
         if (nova.inDevMode())
-            console.log("Activating Copilot...");
-        if (!this.nodePath || !this.lspPath) {
-            console.log("Node path or language server path is not set.");
+            console.log('Activating Copilot...');
+        if (!this.lspPath) {
+            console.log('Language server path is not set.');
             return;
         }
         if (this.languageClient) {
@@ -56,16 +46,16 @@ class CopilotLanguageServer {
         }
         // Create the client
         const serverOptions = {
-            path: this.nodePath,
-            args: [this.lspPath, "--stdio"],
-            type: "stdio",
+            path: this.lspPath,
+            args: ['--stdio'],
+            type: 'stdio',
         };
-        var clientOptions = {
+        const clientOptions = {
             // debug: nova.inDevMode(),
             syntaxes: [...this.commonSyntaxes, ...this.extraSyntaxes],
             initializationOptions: {
                 editorInfo: {
-                    name: "Nova",
+                    name: 'Nova',
                     version: nova.versionString,
                 },
                 editorPluginInfo: {
@@ -74,12 +64,12 @@ class CopilotLanguageServer {
                 },
             },
         };
-        var client = new LanguageClient("copilot-langserver", "Copilot Language Server", serverOptions, clientOptions);
+        const client = new LanguageClient('copilot-langserver', 'Copilot Language Server', serverOptions, clientOptions);
         client.onDidStop(this.onDidStop, this);
-        client.onNotification("didChangeStatus", this.onDidChangeStatus);
+        client.onNotification('didChangeStatus', this.onDidChangeStatus);
         try {
             if (nova.inDevMode())
-                console.log("Starting Copilot Client...");
+                console.log('Starting Copilot Client...');
             // Start the client
             client.start();
             // Add the client to the subscriptions to be cleaned up
@@ -98,7 +88,7 @@ class CopilotLanguageServer {
     }
     stop() {
         if (nova.inDevMode())
-            console.log("Deactivating Copilot...");
+            console.log('Deactivating Copilot...');
         if (this.languageClient) {
             this.languageClient.stop();
             nova.subscriptions.remove(this.languageClient);
@@ -110,7 +100,7 @@ class CopilotLanguageServer {
             if (!this.languageClient)
                 return;
             try {
-                const commandResponse = (yield this.languageClient.sendRequest("workspace/executeCommand", response.command));
+                const commandResponse = (yield this.languageClient.sendRequest('workspace/executeCommand', response.command));
                 new Notification_1.default(`Authorized as ${commandResponse.user}`).show();
             }
             catch (error) {
@@ -123,10 +113,10 @@ class CopilotLanguageServer {
             if (!this.languageClient)
                 return;
             try {
-                let response = (yield this.languageClient.sendRequest("signIn", {}));
-                let notification = new Notification_1.default(response.userCode);
-                notification.action("Cancel", () => { });
-                notification.action("Sign in with Github", () => __awaiter(this, void 0, void 0, function* () { return yield this.auth(response); }));
+                const response = (yield this.languageClient.sendRequest('signIn', {}));
+                const notification = new Notification_1.default(response.userCode);
+                notification.action('Cancel', () => { });
+                notification.action('Sign in with Github', () => __awaiter(this, void 0, void 0, function* () { return yield this.auth(response); }));
                 notification.show();
             }
             catch (error) {
@@ -139,11 +129,11 @@ class CopilotLanguageServer {
             if (!this.languageClient)
                 return;
             try {
-                yield this.languageClient.sendRequest("signOut", {});
-                new Notification_1.default("Signed Out").show();
+                yield this.languageClient.sendRequest('signOut', {});
+                new Notification_1.default('Signed Out').show();
             }
             catch (error) {
-                new Notification_1.default("Signed Out: \n" + error).show();
+                new Notification_1.default(`Signed Out: \n${error}`).show();
             }
         });
     }
@@ -151,8 +141,8 @@ class CopilotLanguageServer {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.languageClient)
                 return;
-            this.languageClient.sendNotification("workspace/didChangeConfiguration", {
-                settings: nova.config.get("besya.copilot"),
+            this.languageClient.sendNotification('workspace/didChangeConfiguration', {
+                settings: nova.config.get('besya.copilot'),
             });
         });
     }
@@ -161,12 +151,12 @@ class CopilotLanguageServer {
     }
     onDidChangeStatus(status) {
         switch (status.kind) {
-            case "Error":
-            case "Warning":
-            case "Inactive":
+            case 'Error':
+            case 'Warning':
+            case 'Inactive':
                 new Notification_1.default(status.message).show();
                 break;
-            case "Normal":
+            case 'Normal':
                 break;
         }
     }
@@ -205,10 +195,10 @@ class CopilotLanguageServer {
                 },
             };
             try {
-                return (yield this.languageClient.sendRequest("textDocument/inlineCompletion", params));
+                return (yield this.languageClient.sendRequest('textDocument/inlineCompletion', params));
             }
             catch (error) {
-                console.log("textDocument/inlineCompletion: ", error);
+                console.log('textDocument/inlineCompletion: ', error);
             }
         });
     }

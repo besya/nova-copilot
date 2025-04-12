@@ -5,7 +5,7 @@ exports.lspRangeToRange = lspRangeToRange;
 function rangeToLspRange(document, range) {
     const fullContents = document.getTextInRange(new Range(0, document.length));
     let chars = 0;
-    let startLspRange;
+    let startLspRange = {};
     const lines = fullContents.split(document.eol);
     for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
         const lineLength = lines[lineIndex].length + document.eol.length;

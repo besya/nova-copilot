@@ -10,40 +10,7 @@ actionscript, ada, amber, apacheconfig, applescript, asciidoc, assembly, bash, b
 
 Copilot extension requires some additional tools to be installed:
 
-- Node.js
 - Copilot Language Server
-
-## Install Node.js
-
-### Using Homebrew
-
-```
-brew install node
-```
-
-### Using Mise
-
-```
-mise install node
-```
-
-### Using official site
-
-- Go to [https://nodejs.org](https://nodejs.org)
-- Click "Download Node.js (LTS)" button to download the .pkg installer
-- Double-click the .pkg installer to begin installation.
-
-### Check installation
-
-```
-$ node -v
-v22.13.1
-```
-
-```
-$ npm -v
-10.9.2
-```
 
 ## Install Copilot Language Server
 
@@ -55,27 +22,22 @@ npm install @github/copilot-language-server
 
 ```
 $ copilot-language-server --version
-1.267.0
+1.302.0
 ```
 
 ## Configuration
 
-Once Node and Copilot Language Server are installed we need to set the correct paths in extension settings
+Once Copilot Language Server is installed we need to set the correct path in extension settings
 
 Open **Extensions > Extension Library > Copilot** then select Copilot's **Settings** tab.
 
-In the Node Path field paste the `node` path. In the Copilot Language Server path paste the `copilot-language-server` path.
+In the Copilot Language Server path paste the `copilot-language-server` path.
 
-Paths can be found using `which` command
-
-```
-$ which node
-/Users/besya/.local/share/mise/installs/node/22.13.1/bin/node
-```
+Path can be found using `which` command
 
 ```
-$ copilot-language-server
-/Users/besya/.local/share/mise/installs/node/22.13.1/bin/copilot-language-server
+$ which copilot-language-server
+/Users/besya/.local/share/mise/installs/node/23.11.0/bin/copilot-language-server
 ```
 
 ## Usage
@@ -95,10 +57,21 @@ $ copilot-language-server
 11. Wait a few seconds and the Notification should appear with the "Authorized" message
 12. Congratulations. Now you are able to use Copilot
 
+If you have issues related to Sign In check [this steps](https://github.com/besya/nova-copilot/issues/1#issuecomment-2701344727) first:
+
 ### Completions
 
 Default shortcut for inline completion command is `^"` (control-shift-')
 The completion provided by copilot-language-server should appear next to your cursor position and autoselected.
+
+#### Custom shortcut
+
+Changing the default keyboard shortcut to a custom one is very easy:
+1. Open Nova Settings (command+,)
+2. Select "Key Bindings"
+3. Enter "inline completion" in the Filter input field
+4. Select the "Inline completion (Copilot)" row
+5. Double-click the ^" shortcut and enter your own
 
 #### Experimental feature
 

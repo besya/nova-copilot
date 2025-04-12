@@ -1,19 +1,19 @@
 interface Command {
-    command: string
-    arguments: string[]
-    title: string
+  command: string
+  arguments: string[]
+  title: string
 }
 
 interface SignInResponse {
-    userCode: string
-    command: Command
+  userCode: string
+  command: Command
 }
 
 interface StatusNotification {
-    message: string
-    kind: "Normal" | "Error" | "Warning" | "Inactive"
+  message: string
+  kind: 'Normal' | 'Error' | 'Warning' | 'Inactive'
 }
 
 interface AuthResponse {
-    user: string
+  user: string
 }

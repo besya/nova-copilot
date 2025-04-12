@@ -1,3 +1,7 @@
+## Version 0.0.3
+Remove Node path from settings. Now only LSP path is required.
+Commands to manually Stop/Start the Copilot
+
 ## Version 0.0.2
 
 ### Extend the list of available syntaxes for use with Copilot

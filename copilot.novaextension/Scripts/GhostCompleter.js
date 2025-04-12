@@ -29,7 +29,9 @@ class GhostCompleter {
             const typedText = document.getTextInRange(new Range(start - character, start));
             const remainingText = insertText.slice(typedText.length);
             yield this.editor.edit((edit) => edit.replace(replaceRange, insertText, InsertTextFormat.Snippet));
-            this.editor.startShadowTyping([new Range(start, start + remainingText.length)]);
+            this.editor.startShadowTyping([
+                new Range(start, start + remainingText.length),
+            ]);
         });
     }
 }

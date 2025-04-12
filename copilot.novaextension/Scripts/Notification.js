@@ -9,7 +9,7 @@ class Notification {
         this.request.title = title || nova.extension.name;
         this.request.body = body;
     }
-    input(defaultText, placeholder = "", type = "input") {
+    input(defaultText, placeholder = '', type = 'input') {
         this.request.type = type;
         this.request.textInputValue = defaultText;
         this.request.textInputPlaceholder = placeholder;

@@ -1,21 +1,15 @@
 [
-    {
-        "key": "besya.copilot.node-path",
-        "title": "Node Path",
-        "type": "path",
-        "placeholder": "/opt/homebrew/bin/node"
-    },
-    {
-        "key": "besya.copilot.language-server-path",
-        "title": "Copilot Language Server Path",
-        "type": "path",
-        "placeholder": "/opt/homebrew/bin/copilot-language-server"
-    },
-    {
-        "title": "Enable inline completions on typing",
-        "description": "Warning: This is experimental feature and may break your code.",
-        "key": "besya.copilot.inline-completions-on-change",
-        "type": "boolean",
-        "default": false
-    }
+  {
+    "key": "besya.copilot.language-server-path",
+    "title": "Copilot Language Server Path",
+    "type": "path",
+    "placeholder": "/opt/homebrew/bin/copilot-language-server"
+  },
+  {
+    "title": "Enable inline completions on typing",
+    "description": "Warning: This is experimental feature and may break your code.",
+    "key": "besya.copilot.inline-completions-on-change",
+    "type": "boolean",
+    "default": false
+  }
 ]
